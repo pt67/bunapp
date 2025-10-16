@@ -16,6 +16,7 @@ _.log
 report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 # dotenv environment variable files
+temp_auto_push.bat
 .env
 .env.development.local
 .env.test.local
@@ -32,3 +33,9 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 # Finder (MacOS) folder config
 .DS_Store
+
+# Local Netlify folder
+.netlify
+.gitignore
+temp_interactive_push.bat
+branch_structure.json
