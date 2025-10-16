@@ -1,4 +1,4 @@
-# bun-react-template
+# Building TODO with bunjs
 
 To install dependencies:
 
