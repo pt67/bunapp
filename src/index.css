@@ -184,3 +184,17 @@ code {
     animation: none !important;
   }
 }
+
+#sort-select {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 2px solid #fbf0df;
+  background-color: #1a1a1a;
+  color: #fbf0df;
+  font-size: 1rem;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}

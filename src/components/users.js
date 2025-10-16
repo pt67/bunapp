@@ -6,6 +6,7 @@ export default function UserList() {
   const [editingId, setEditingId] = useState(null);
   const [editingName, setEditingName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("name-asc"); // NEW: sort state
 
   useEffect(() => {
     if (searchTerm.trim() === "") {
@@ -122,25 +123,60 @@ export default function UserList() {
     }
   };
 
+  // NEW: Sorting users before rendering
+  const sortedUsers = [...users].sort((a, b) => {
+    switch (sortBy) {
+      case "name-asc":
+        return a.name.localeCompare(b.name);
+      case "name-desc":
+        return b.name.localeCompare(a.name);
+      case "date-asc":
+        return new Date(a.created_at) - new Date(b.created_at);
+      case "date-desc":
+        return new Date(b.created_at) - new Date(a.created_at);
+      default:
+        return 0;
+    }
+  });
+
   return (
     <div className="app user-list" style={{ textAlign: "left", maxWidth: "600px" }}>
       <h2 style={{ color: "inherit" }}>User List</h2>
 
+      {/* Search */}
       <input
         type="text"
         placeholder="Search users by name..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="url-input"
-        style={{ marginBottom: "1rem" }}
+        style={{ marginBottom: "1rem", width: "100%" }}
       />
 
+      {/* Sort */}
+      <div style={{ marginBottom: "1rem" }}>
+        <label htmlFor="sort-select">Sort by: </label>
+        <select
+          id="sort-select"
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          style={{ marginLeft: "0.5rem" }}
+        >
+          <option value="name-asc">Name (A–Z)</option>
+          <option value="name-desc">Name (Z–A)</option>
+          <option value="date-asc">Date (Oldest First)</option>
+          <option value="date-desc">Date (Newest First)</option>
+        </select>
+      </div>
+
+      {/* Loading */}
       {loading && <p>Loading...</p>}
 
+      {/* User List */}
       <ul style={{ listStyle: "none", paddingLeft: 0 }}>
-        {users.length === 0 && !loading && <li>No users found.</li>}
+        {sortedUsers.length === 0 && !loading && <li>No users found.</li>}
 
-        {users.map((user) => (
+        {sortedUsers.map((user) => (
           <li
             key={user.id}
             style={{
@@ -158,7 +194,7 @@ export default function UserList() {
                   value={editingName}
                   onChange={(e) => setEditingName(e.target.value)}
                   className="url-input"
-                  style={{ marginBottom: "0.5rem" }}
+                  style={{ marginBottom: "0.5rem", width: "100%" }}
                 />
                 <button
                   onClick={() => handleUpdate(user.id)}
